@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Early Spark</title>
+    
+    <link rel="icon" href="https://img.icons8.com/fluency/48/idea.png" type="image/png">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;800&display=swap');
+        body { font-family: 'Tajawal', sans-serif; transition: all 0.3s ease; }
+        
+        .gradient-header { background: linear-gradient(135deg, #4c1d95 0%, #d946ef 100%); }
+        
+        .tab-active { 
+            background-color: #3b82f6 !important; 
+            color: white !important;
+            border-bottom: 4px solid #1e40af;
+        }
+        
+        .fade-in { animation: fadeIn 0.4s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .card-shadow { box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1); }
+        .logo-shine { text-shadow: 0 0 10px rgba(255, 255, 255, 0.5); }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+
+    <header class="gradient-header text-white py-4 shadow-2xl relative overflow-hidden">
+        <div class="absolute top-0 left-0 w-32 h-32 bg-white opacity-10 rounded-full -translate-x-10 -translate-y-10"></div>
+        <div class="absolute bottom-0 right-0 w-24 h-24 bg-yellow-300 opacity-20 rounded-full translate-x-10 translate-y-10"></div>
+
+        <div class="max-w-6xl mx-auto px-4 flex justify-between items-center relative z-10">
+            <div class="flex items-center gap-3 text-right cursor-pointer" onclick="location.reload()">
+                <div class="bg-white p-2 rounded-full shadow-lg border-2 border-yellow-300">
+                    <img src="https://img.icons8.com/fluency/96/idea.png" class="w-10 h-10 hover:scale-110 transition duration-300" alt="Logo">
+                </div>
+                <div>
+                    <h1 class="text-3xl font-extrabold flex items-center gap-2 logo-shine tracking-wide">
+                        Early <span class="text-yellow-300">Spark</span>
+                    </h1>
+                    <p class="text-xs opacity-90 font-medium text-purple-100 trans-text" data-key="headerSub">اكتشف مواهب طفلك الحقيقية بما يتجاوز الدرجات</p>
+                </div>
+            </div>
+            <button onclick="toggleLang()" class="bg-white/10 hover:bg-white/20 backdrop-blur-sm px-5 py-2 rounded-full font-bold border border-white/40 transition text-sm shadow-sm flex items-center gap-2 hover:scale-105">
+                <i class="fas fa-globe"></i> EN / عربي
+            </button>
+        </div>
+    </header>
+
+    <nav class="max-w-4xl mx-auto mt-8 px-4 flex gap-4 justify-center">
+        <button id="btn-tab-demo" onclick="showTab('demo')" class="px-6 py-3 bg-white text-gray-700 rounded-xl shadow-md font-bold transition transform hover:-translate-y-1 tab-active flex items-center gap-2">
+            <i class="fas fa-chart-bar"></i> <span class="trans-text" data-key="navDemo">عرض توضيحي مباشر</span>
+        </button>
+        <button id="btn-tab-try" onclick="showTab('try')" class="px-6 py-3 bg-white text-gray-700 rounded-xl shadow-md font-bold transition transform hover:-translate-y-1 flex items-center gap-2">
+            <i class="fas fa-tv"></i> <span class="trans-text" data-key="navTry">جرب الآن</span>
+        </button>
+        <button id="btn-tab-info" onclick="showTab('info')" class="px-6 py-3 bg-white text-gray-700 rounded-xl shadow-md font-bold transition transform hover:-translate-y-1 flex items-center gap-2">
+            <i class="fas fa-info-circle"></i> <span class="trans-text" data-key="navInfo">معلومات</span>
+        </button>
+    </nav>
+
+    <main class="max-w-6xl mx-auto p-4 mt-6">
+
+        <section id="tab-demo" class="tab-panel fade-in">
+            <div class="grid md:grid-cols-3 gap-6 mb-6">
+                <div class="bg-white p-6 rounded-2xl card-shadow border-t-4 border-green-500">
+                    <h3 class="font-bold mb-4 flex items-center gap-2 text-gray-700"><i class="fas fa-chart-pie text-green-600"></i> <span class="trans-text" data-key="statsTitle">الإحصائيات</span></h3>
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg"><span class="text-sm text-gray-600 trans-text" data-key="intelFound">أنواع الذكاء المكتشفة</span><span class="text-2xl font-bold text-gray-800">3</span></div>
+                        <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg"><span class="text-sm text-gray-600 trans-text" data-key="confLevel">مستوى الثقة</span><span class="text-2xl font-bold text-gray-800">87%</span></div>
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-2xl card-shadow border-t-4 border-blue-500 flex flex-col justify-center items-center text-center">
+                    <p class="text-gray-500 text-sm mb-2 trans-text" data-key="overallTitle">النتيجة الإجمالية</p>
+                    <div class="flex items-center gap-4 w-full justify-center">
+                        <div class="w-2/3 bg-gray-200 rounded-full h-4 overflow-hidden"><div class="bg-gradient-to-r from-green-400 to-green-600 h-4 rounded-full" style="width: 82%"></div></div>
+                        <span class="text-5xl font-extrabold text-gray-800">82%</span>
+                    </div>
+                    <p class="text-xs text-gray-400 mt-3 trans-text bg-gray-100 px-3 py-1 rounded-full" data-key="compareText">مقارنة مع أطفال في نفس العمر</p>
+                </div>
+                <div class="bg-white rounded-2xl card-shadow overflow-hidden text-center border-t-4 border-purple-500">
+                    <div class="h-28 bg-gradient-to-br from-purple-400 to-pink-400 relative"><div class="absolute bottom-0 w-full h-1/2 bg-white/20 backdrop-blur-sm"></div></div>
+                    <div class="-mt-14 mb-4 relative z-10"><div class="w-24 h-24 bg-white rounded-full mx-auto flex items-center justify-center text-5xl border-4 border-white shadow-md">👧</div></div>
+                    <h2 class="text-2xl font-bold mb-1 trans-text text-gray-800" data-key="demoName">إيما</h2>
+                    <p class="text-gray-500 text-sm mb-3 trans-text" data-key="demoAge">3-5 سنوات</p>
+                    <span class="bg-green-100 text-green-700 px-4 py-1.5 rounded-full text-xs font-bold trans-text shadow-sm" data-key="demoStatus">💪 قوية</span><div class="h-6"></div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl card-shadow p-8 mb-6 border-l-8 border-yellow-400">
+                <h3 class="text-2xl font-bold mb-8 flex items-center gap-3 text-gray-800"><i class="fas fa-brain text-purple-600 text-3xl"></i> <span class="trans-text" data-key="intelTitle">أنواع الذكاء المكتشفة</span></h3>
+                <div class="space-y-8">
+                    <div>
+                        <div class="flex justify-between mb-2"><span class="font-bold flex gap-2 items-center text-lg"><i class="fas fa-running text-yellow-500 bg-yellow-100 p-2 rounded-lg"></i> <span class="trans-text" data-key="bodilyTitle">الذكاء الحركي الجسدي</span></span><span class="text-green-600 font-bold text-lg">87%</span></div>
+                        <p class="text-sm text-gray-500 mb-3 trans-text mr-10" data-key="bodilyDesc">تحكم جسدي قوي وتنسيق حركي ممتاز</p>
+                        <div class="w-full bg-gray-100 h-3 rounded-full overflow-hidden"><div class="bg-gradient-to-r from-green-400 to-green-600 h-3 rounded-full shadow-md" style="width: 87%"></div></div>
+                    </div>
+                    <div>
+                        <div class="flex justify-between mb-2"><span class="font-bold flex gap-2 items-center text-lg"><i class="fas fa-shapes text-blue-500 bg-blue-100 p-2 rounded-lg"></i> <span class="trans-text" data-key="spatialTitle">الذكاء المكاني</span></span><span class="text-blue-600 font-bold text-lg">72%</span></div>
+                        <p class="text-sm text-gray-500 mb-3 trans-text mr-10" data-key="spatialDesc">تفكير مكاني متطور وفهم الأشكال</p>
+                        <div class="w-full bg-gray-100 h-3 rounded-full overflow-hidden"><div class="bg-gradient-to-r from-blue-400 to-blue-600 h-3 rounded-full shadow-md" style="width: 72%"></div></div>
+                    </div>
+                    <div>
+                        <div class="flex justify-between mb-2"><span class="font-bold flex gap-2 items-center text-lg"><i class="fas fa-calculator text-orange-500 bg-orange-100 p-2 rounded-lg"></i> <span class="trans-text" data-key="logicalTitle">الذكاء المنطقي الرياضي</span></span><span class="text-orange-600 font-bold text-lg">68%</span></div>
+                        <p class="text-sm text-gray-500 mb-3 trans-text mr-10" data-key="logicalDesc">تفكير منطقي متطور وحل مشاكل</p>
+                        <div class="w-full bg-gray-100 h-3 rounded-full overflow-hidden"><div class="bg-gradient-to-r from-orange-400 to-orange-600 h-3 rounded-full shadow-md" style="width: 68%"></div></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="bg-white p-6 rounded-2xl card-shadow hover:shadow-xl transition duration-300">
+                    <h3 class="font-bold mb-4 flex gap-2 text-lg items-center"><i class="fas fa-bullseye text-red-500 bg-red-100 p-1.5 rounded-full"></i> <span class="trans-text" data-key="recTitle">الأنشطة الموصى بها</span></h3>
+                    <ul class="text-sm text-gray-600 space-y-3">
+                        <li class="flex items-center gap-2"><i class="fas fa-check text-green-500 text-xs"></i> <span class="trans-text" data-key="rec1">مسارات عقبات ورياضات</span></li>
+                        <li class="flex items-center gap-2"><i class="fas fa-check text-green-500 text-xs"></i> <span class="trans-text" data-key="rec2">دروس رقص وحركة</span></li>
+                        <li class="flex items-center gap-2"><i class="fas fa-check text-green-500 text-xs"></i> <span class="trans-text" data-key="rec3">برامج جمباز</span></li>
+                        <li class="flex items-center gap-2"><i class="fas fa-check text-green-500 text-xs"></i> <span class="trans-text" data-key="rec4">ألعاب رياضية جماعية</span></li>
+                    </ul>
+                </div>
+                <div class="bg-white p-6 rounded-2xl card-shadow hover:shadow-xl transition duration-300">
+                    <h3 class="font-bold mb-4 flex gap-2 text-lg items-center"><i class="fas fa-gamepad text-purple-500 bg-purple-100 p-1.5 rounded-full"></i> <span class="trans-text" data-key="gamesTitle">الألعاب والتمارين</span></h3>
+                    <ul class="text-sm text-gray-600 space-y-3">
+                        <li class="flex items-center gap-2"><i class="fas fa-check text-green-500 text-xs"></i> <span class="trans-text" data-key="game1">لعب البناء (LEGO)</span></li>
+                        <li class="flex items-center gap-2"><i class="fas fa-check text-green-500 text-xs"></i> <span class="trans-text" data-key="game2">ألغاز ثلاثية الأبعاد</span></li>
+                        <li class="flex items-center gap-2"><i class="fas fa-check text-green-500 text-xs"></i> <span class="trans-text" data-key="game3">ألعاب التوازن واليوجا</span></li>
+                    </ul>
+                </div>
+                <div class="bg-white p-6 rounded-2xl card-shadow hover:shadow-xl transition duration-300">
+                    <h3 class="font-bold mb-4 flex gap-2 text-lg items-center"><i class="fas fa-users text-blue-500 bg-blue-100 p-1.5 rounded-full"></i> <span class="trans-text" data-key="tipsTitle">نصائح الوالدين</span></h3>
+                    <ul class="text-sm text-gray-600 space-y-3">
+                        <li class="flex items-center gap-2"><i class="fas fa-check text-green-500 text-xs"></i> <span class="trans-text" data-key="tip1">توفير مساحات آمنة للاستكشاف</span></li>
+                        <li class="flex items-center gap-2"><i class="fas fa-check text-green-500 text-xs"></i> <span class="trans-text" data-key="tip2">الاحتفاء بالإنجازات الحركية</span></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="mt-8 bg-yellow-50 border-r-4 border-yellow-400 p-4 rounded-lg flex items-start gap-3 shadow-sm">
+                <i class="fas fa-exclamation-triangle text-yellow-500 mt-1"></i>
+                <div class="text-sm text-yellow-800"><strong class="trans-text block mb-1" data-key="disclaimerTitle">⚠️ إخلاء مسؤولية:</strong><span class="trans-text" data-key="disclaimerText">هذا التقييم هو أداة تعليمية فقط وليس تشخيصاً طبياً.</span></div>
+            </div>
+        </section>
+
+        <section id="tab-try" class="tab-panel hidden fade-in">
+            <div class="max-w-2xl mx-auto bg-white rounded-2xl card-shadow p-8 border border-purple-100">
+                <h2 class="text-2xl font-bold mb-8 flex items-center gap-3 text-gray-800 border-b pb-4"><i class="fas fa-video text-purple-600 bg-purple-100 p-2 rounded-lg"></i> <span class="trans-text" data-key="tryHeader">جرب الآن - حمل فيديو</span></h2>
+                
+                <div id="step-input" class="space-y-6">
+                    <div>
+                        <label class="block text-sm font-bold text-gray-700 mb-2 trans-text text-start" data-key="lblChild">اسم الطفل</label>
+                        <div class="relative">
+                            <input type="text" id="childName" data-key="childNameVal" value="نور" class="trans-text w-full bg-gray-50 border border-gray-300 rounded-xl p-3 ps-10 focus:outline-none focus:ring-2 focus:ring-purple-500 transition text-start">
+                            <i class="fas fa-user absolute top-3.5 text-gray-400 ltr:left-3 rtl:right-3 start-3"></i>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold text-gray-700 mb-2 trans-text text-start" data-key="lblAge">العمر</label>
+                        <select id="childAge" class="w-full bg-white border border-gray-300 rounded-xl p-3 text-start focus:outline-none focus:ring-2 focus:ring-purple-500">
+                            <option class="trans-text" data-key="ageOpt1">3-5 سنوات</option>
+                            <option class="trans-text" data-key="ageOpt2">6-8 سنوات</option>
+                            <option class="trans-text" data-key="ageOpt3">9-12 سنة</option>
+                        </select>
+                    </div>
+                    <div class="pt-2">
+                        <label class="block text-sm font-bold text-gray-700 mb-2 trans-text text-start" data-key="lblVideo">الفيديو</label>
+                        <div class="border-2 border-dashed border-purple-300 rounded-xl p-10 text-center bg-purple-50 cursor-pointer hover:bg-purple-100 transition duration-300 group" onclick="document.getElementById('videoFile').click()">
+                            <i class="fas fa-cloud-upload-alt text-5xl text-purple-400 mb-3 group-hover:scale-110 transition"></i>
+                            <p class="text-base font-bold text-gray-700 trans-text" data-key="uploadText">اضغط لاختيار فيديو أو اسحبه هنا</p>
+                            <p class="text-xs text-gray-500 mt-2 trans-text" data-key="uploadSub">حد أقصى: 2 دقيقة</p>
+                            <p id="fileNameDisplay" class="text-purple-600 font-bold mt-3 text-sm"></p>
+                            <input type="file" id="videoFile" class="hidden" accept="video/*" onchange="showFileName()">
+                        </div>
+                    </div>
+                    <button onclick="startProcessing()" class="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-bold py-4 rounded-xl shadow-lg mt-4 flex justify-center items-center gap-3 transform hover:scale-[1.02] transition">
+                        <i class="fas fa-rocket"></i> <span class="trans-text" data-key="analyzeBtn">تحليل الآن</span>
+                    </button>
+                    <p class="text-xs text-center text-gray-400 mt-2 trans-text" data-key="footerNote">* هذا تجريبي. في النسخة الحقيقية سيتم تحليل الفيديو بواسطة AI</p>
+                </div>
+
+                <div id="loading" class="hidden pt-12 text-center">
+                    <div class="relative w-20 h-20 mx-auto">
+                        <div class="absolute inset-0 border-4 border-gray-200 rounded-full"></div>
+                        <div class="absolute inset-0 border-4 border-purple-600 rounded-full border-t-transparent animate-spin"></div>
+                    </div>
+                    <p class="mt-6 text-purple-700 font-bold text-lg trans-text animate-pulse" data-key="waitMsg">جاري التحليل بواسطة OpenAI...</p>
+                </div>
+            </div>
+
+            <div id="result-dashboard" class="hidden mt-8 fade-in">
+                <div class="grid md:grid-cols-3 gap-6 mb-6">
+                    <div class="bg-white p-6 rounded-2xl card-shadow border-t-4 border-green-500">
+                        <h3 class="font-bold mb-4 flex items-center gap-2 text-gray-700"><i class="fas fa-chart-pie text-green-600"></i> <span class="trans-text" data-key="statsTitle">الإحصائيات</span></h3>
+                        <div class="space-y-4">
+                            <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg"><span class="text-sm text-gray-600 trans-text" data-key="intelFound">أنواع الذكاء المكتشفة</span><span id="res-found" class="text-2xl font-bold text-gray-800">0</span></div>
+                            <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg"><span class="text-sm text-gray-600 trans-text" data-key="confLevel">مستوى الثقة</span><span id="res-conf" class="text-2xl font-bold text-gray-800">0%</span></div>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl card-shadow border-t-4 border-blue-500 flex flex-col justify-center items-center text-center">
+                        <p class="text-gray-500 text-sm mb-2 trans-text" data-key="overallTitle">النتيجة الإجمالية</p>
+                        <div class="flex items-center gap-4 w-full justify-center">
+                            <div class="w-2/3 bg-gray-200 rounded-full h-4 overflow-hidden"><div id="res-overall-bar" class="bg-gradient-to-r from-green-400 to-green-600 h-4 rounded-full" style="width: 0%"></div></div>
+                            <span id="res-overall-txt" class="text-5xl font-extrabold text-gray-800">0%</span>
+                        </div>
+                        <p class="text-xs text-gray-400 mt-3 trans-text bg-gray-100 px-3 py-1 rounded-full" data-key="compareText">مقارنة مع أطفال في نفس العمر</p>
+                    </div>
+                    <div class="bg-white rounded-2xl card-shadow overflow-hidden text-center border-t-4 border-purple-500">
+                        <div class="h-28 bg-gradient-to-br from-purple-400 to-pink-400 relative"><div class="absolute bottom-0 w-full h-1/2 bg-white/20 backdrop-blur-sm"></div></div>
+                        <div class="-mt-14 mb-4 relative z-10"><div class="w-24 h-24 bg-white rounded-full mx-auto flex items-center justify-center text-5xl border-4 border-white shadow-md">👧</div></div>
+                        <h2 id="res-name" class="text-2xl font-bold mb-1 text-gray-800">الطفل</h2>
+                        <span class="bg-green-100 text-green-700 px-4 py-1.5 rounded-full text-xs font-bold shadow-sm trans-text" data-key="resSuccess">تم التحليل بنجاح ✅</span><div class="h-6"></div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl card-shadow p-8 mb-6 border-l-8 border-yellow-400">
+                    <h3 class="text-2xl font-bold mb-8 flex items-center gap-3 text-gray-800"><i class="fas fa-brain text-purple-600 text-3xl"></i> <span class="trans-text" data-key="intelTitle">أنواع الذكاء المكتشفة</span></h3>
+                    <div class="space-y-8">
+                        <div>
+                            <div class="flex justify-between mb-2"><span class="font-bold flex gap-2 items-center text-lg"><i class="fas fa-running text-yellow-500 bg-yellow-100 p-2 rounded-lg"></i> <span class="trans-text" data-key="bodilyTitle">الذكاء الحركي الجسدي</span></span><span id="res-bodily-score" class="text-green-600 font-bold text-lg">0%</span></div>
+                            <p id="res-bodily-desc" class="text-sm text-gray-500 mb-3 mr-10">...</p>
+                            <div class="w-full bg-gray-100 h-3 rounded-full overflow-hidden"><div id="res-bodily-bar" class="bg-gradient-to-r from-green-400 to-green-600 h-3 rounded-full shadow-md" style="width: 0%"></div></div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-2"><span class="font-bold flex gap-2 items-center text-lg"><i class="fas fa-shapes text-blue-500 bg-blue-100 p-2 rounded-lg"></i> <span class="trans-text" data-key="spatialTitle">الذكاء المكاني</span></span><span id="res-spatial-score" class="text-blue-600 font-bold text-lg">0%</span></div>
+                            <p id="res-spatial-desc" class="text-sm text-gray-500 mb-3 mr-10">...</p>
+                            <div class="w-full bg-gray-100 h-3 rounded-full overflow-hidden"><div id="res-spatial-bar" class="bg-gradient-to-r from-blue-400 to-blue-600 h-3 rounded-full shadow-md" style="width: 0%"></div></div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-2"><span class="font-bold flex gap-2 items-center text-lg"><i class="fas fa-calculator text-orange-500 bg-orange-100 p-2 rounded-lg"></i> <span class="trans-text" data-key="logicalTitle">الذكاء المنطقي الرياضي</span></span><span id="res-logical-score" class="text-orange-600 font-bold text-lg">0%</span></div>
+                            <p id="res-logical-desc" class="text-sm text-gray-500 mb-3 mr-10">...</p>
+                            <div class="w-full bg-gray-100 h-3 rounded-full overflow-hidden"><div id="res-logical-bar" class="bg-gradient-to-r from-orange-400 to-orange-600 h-3 rounded-full shadow-md" style="width: 0%"></div></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div class="bg-white p-6 rounded-2xl card-shadow hover:shadow-xl transition duration-300">
+                        <h3 class="font-bold mb-4 flex gap-2 text-lg items-center"><i class="fas fa-bullseye text-red-500 bg-red-100 p-1.5 rounded-full"></i> <span class="trans-text" data-key="recTitle">الأنشطة الموصى بها</span></h3>
+                        <ul id="res-recs-list" class="text-sm text-gray-600 space-y-3"></ul>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl card-shadow hover:shadow-xl transition duration-300">
+                        <h3 class="font-bold mb-4 flex gap-2 text-lg items-center"><i class="fas fa-gamepad text-purple-500 bg-purple-100 p-1.5 rounded-full"></i> <span class="trans-text" data-key="gamesTitle">الألعاب والتمارين</span></h3>
+                        <ul id="res-games-list" class="text-sm text-gray-600 space-y-3"></ul>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl card-shadow hover:shadow-xl transition duration-300">
+                        <h3 class="font-bold mb-4 flex gap-2 text-lg items-center"><i class="fas fa-users text-blue-500 bg-blue-100 p-1.5 rounded-full"></i> <span class="trans-text" data-key="tipsTitle">نصائح الوالدين</span></h3>
+                        <ul id="res-tips-list" class="text-sm text-gray-600 space-y-3"></ul>
+                    </div>
+                </div>
+                <div class="mt-8 text-center"><button onclick="location.reload()" class="bg-gray-200 hover:bg-gray-300 px-6 py-3 rounded-xl font-bold transition text-gray-700 trans-text" data-key="reload">تجربة أخرى 🔄</button></div>
+            </div>
+        </section>
+
+        <section id="tab-info" class="tab-panel hidden fade-in">
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-white p-8 rounded-2xl card-shadow border-t-4 border-yellow-400">
+                    <h3 class="text-xl font-bold mb-6 flex justify-between items-center text-gray-800"><span class="trans-text" data-key="featTitle">الميزات</span> <i class="fas fa-star text-yellow-400 bg-yellow-50 p-2 rounded-lg"></i></h3>
+                    <ul class="space-y-5 text-start">
+                        <li class="flex justify-between gap-4 items-center group"><span class="text-gray-600 font-medium trans-text group-hover:text-purple-600 transition" data-key="feat1">تحميل فيديو قصير للطفل</span> <div class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center text-gray-500"><i class="fas fa-video"></i></div></li>
+                        <li class="flex justify-between gap-4 items-center group"><span class="text-gray-600 font-medium trans-text group-hover:text-purple-600 transition" data-key="feat2">تحليل ذكي بواسطة AI</span> <div class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center text-gray-500"><i class="fas fa-robot"></i></div></li>
+                        <li class="flex justify-between gap-4 items-center group"><span class="text-gray-600 font-medium trans-text group-hover:text-purple-600 transition" data-key="feat3">تقرير مفصل وقابل للمشاركة</span> <div class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center text-gray-500"><i class="fas fa-chart-bar"></i></div></li>
+                        <li class="flex justify-between gap-4 items-center group"><span class="text-gray-600 font-medium trans-text group-hover:text-purple-600 transition" data-key="feat4">توصيات شخصية للتطور</span> <div class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center text-gray-500"><i class="fas fa-lightbulb"></i></div></li>
+                    </ul>
+                </div>
+                <div class="bg-white p-8 rounded-2xl card-shadow border-t-4 border-red-500">
+                    <h3 class="text-xl font-bold mb-6 flex justify-between items-center text-gray-800"><span class="trans-text" data-key="aboutTitle">ما هي Early Spark؟</span> <i class="fas fa-bullseye text-red-500 bg-red-50 p-2 rounded-lg"></i></h3>
+                    <p class="text-gray-600 leading-loose text-start mb-6 trans-text text-lg" data-key="aboutDesc1">منصة ذكية تساعد الآباء والأمهات على اكتشاف مواهب أطفالهم الحقيقية بما يتجاوز الدرجات الدراسية التقليدية.</p>
+                    <p class="text-gray-600 leading-loose text-start trans-text text-lg" data-key="aboutDesc2">نستخدم نظرية هوارد جاردنر للذكاءات المتعددة لفهم نقاط قوة طفلك بشكل شامل.</p>
+                </div>
+                <div class="bg-white p-8 rounded-2xl card-shadow border-t-4 border-blue-500">
+                    <h3 class="text-xl font-bold mb-6 flex justify-between items-center text-gray-800"><span class="trans-text" data-key="startTitle">ابدأ الآن</span> <i class="fas fa-rocket text-blue-500 bg-blue-50 p-2 rounded-lg"></i></h3>
+                    <p class="text-gray-500 text-start mb-6 trans-text font-medium" data-key="startSub">اختر من الخيارات أعلاه:</p>
+                    <ul class="space-y-5 text-start">
+                        <li class="flex justify-between gap-4 items-center p-3 rounded-lg hover:bg-green-50 transition cursor-pointer"><span class="text-gray-700 font-bold trans-text" data-key="start1">عرض توضيحي: شف كيف يعمل النظام</span> <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center text-green-600"><i class="fas fa-chart-pie"></i></div></li>
+                        <li class="flex justify-between gap-4 items-center p-3 rounded-lg hover:bg-purple-50 transition cursor-pointer"><span class="text-gray-700 font-bold trans-text" data-key="start2">جرب الآن: حمل فيديو وحلل</span> <div class="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center text-purple-600"><i class="fas fa-video"></i></div></li>
+                        <li class="flex justify-between gap-4 items-center p-3 rounded-lg hover:bg-blue-50 transition cursor-pointer"><span class="text-gray-700 font-bold trans-text" data-key="start3">النسخة الكاملة: على Azure Cloud</span> <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center text-blue-600"><i class="fas fa-cloud"></i></div></li>
+                    </ul>
+                </div>
+                <div class="bg-white p-8 rounded-2xl card-shadow border-t-4 border-pink-500">
+                    <h3 class="text-xl font-bold mb-6 flex justify-between items-center text-gray-800"><span class="trans-text" data-key="intelListTitle">أنواع الذكاء الثمانية</span> <i class="fas fa-brain text-pink-500 bg-pink-50 p-2 rounded-lg"></i></h3>
+                    <div class="grid grid-cols-2 gap-4 text-start">
+                        <div class="p-3 bg-gray-50 rounded-lg border border-gray-100 hover:border-pink-200 transition"><span class="trans-text font-bold text-gray-700" data-key="l1">الحركي</span> <span class="block text-xs text-gray-500 mt-1 trans-text" data-key="d1">💪 التنسيق</span></div>
+                        <div class="p-3 bg-gray-50 rounded-lg border border-gray-100 hover:border-pink-200 transition"><span class="trans-text font-bold text-gray-700" data-key="l2">المكاني</span> <span class="block text-xs text-gray-500 mt-1 trans-text" data-key="d2">🎨 الأشكال</span></div>
+                        <div class="p-3 bg-gray-50 rounded-lg border border-gray-100 hover:border-pink-200 transition"><span class="trans-text font-bold text-gray-700" data-key="l3">المنطقي</span> <span class="block text-xs text-gray-500 mt-1 trans-text" data-key="d3">🔢 المشاكل</span></div>
+                        <div class="p-3 bg-gray-50 rounded-lg border border-gray-100 hover:border-pink-200 transition"><span class="trans-text font-bold text-gray-700" data-key="l4">الموسيقي</span> <span class="block text-xs text-gray-500 mt-1 trans-text" data-key="d4">🎵 الإيقاع</span></div>
+                        <div class="p-3 bg-gray-50 rounded-lg border border-gray-100 hover:border-pink-200 transition"><span class="trans-text font-bold text-gray-700" data-key="l5">اللغوي</span> <span class="block text-xs text-gray-500 mt-1 trans-text" data-key="d5">📝 الكلام</span></div>
+                        <div class="p-3 bg-gray-50 rounded-lg border border-gray-100 hover:border-pink-200 transition"><span class="trans-text font-bold text-gray-700" data-key="l6">الاجتماعي</span> <span class="block text-xs text-gray-500 mt-1 trans-text" data-key="d6">👥 التفاعل</span></div>
+                        <div class="p-3 bg-gray-50 rounded-lg border border-gray-100 hover:border-pink-200 transition"><span class="trans-text font-bold text-gray-700" data-key="l7">الشخصي</span> <span class="block text-xs text-gray-500 mt-1 trans-text" data-key="d7">🌟 الوعي</span></div>
+                        <div class="p-3 bg-gray-50 rounded-lg border border-gray-100 hover:border-pink-200 transition"><span class="trans-text font-bold text-gray-700" data-key="l8">الطبيعي</span> <span class="block text-xs text-gray-500 mt-1 trans-text" data-key="d8">🌿 الطبيعة</span></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-gray-800 text-white mt-12 py-10 text-center border-t-4 border-purple-500">
+        <p class="font-bold flex items-center justify-center gap-2 text-xl">Early Spark <i class="fas fa-lightbulb text-yellow-300"></i></p>
+        <p class="text-sm text-gray-400 mt-3 trans-text" data-key="footer1">نسخة تجريبية مباشرة على الويب | بدون تثبيت | بدون تسجيل</p>
+        <p class="text-xs text-gray-300 mt-6 tracking-wider">Early Spark Platform 2026 © All Rights Reserved</p>
+    </footer>
+
+    <script>
+        let lang = 'ar';
+        let currentReportData = null;
+
+        const trans = {
+            ar: {
+                headerSub: "اكتشف مواهب طفلك الحقيقية بما يتجاوز الدرجات",
+                navDemo: "عرض توضيحي مباشر", navTry: "جرب الآن", navInfo: "معلومات",
+                statsTitle: "الإحصائيات", intelFound: "أنواع الذكاء المكتشفة", confLevel: "مستوى الثقة",
+                overallTitle: "النتيجة الإجمالية", compareText: "مقارنة مع أطفال في نفس العمر",
+                demoName: "إيما", demoAge: "3-5 سنوات", demoStatus: "💪 قوية",
+                intelTitle: "أنواع الذكاء المكتشفة",
+                bodilyTitle: "الذكاء الحركي الجسدي", bodilyDesc: "تحكم جسدي قوي وتنسيق حركي ممتاز", aboveAvg: "أعلى من المتوسط",
+                spatialTitle: "الذكاء المكاني", spatialDesc: "تفكير مكاني متطور وفهم الأشكال", avg: "في الوسط",
+                logicalTitle: "الذكاء المنطقي الرياضي", logicalDesc: "تفكير منطقي متطور وحل مشاكل", needsDev: "يحتاج تطوير",
+                recTitle: "الأنشطة الموصى بها", rec1: "مسارات عقبات ورياضات", rec2: "دروس رقص وحركة", rec3: "برامج جمباز", rec4: "ألعاب رياضية جماعية",
+                gamesTitle: "الألعاب والتمارين", game1: "لعب البناء (LEGO)", game2: "ألغاز ثلاثية الأبعاد", game3: "ألعاب التوازن واليوجا",
+                tipsTitle: "نصائح الوالدين", tip1: "توفير مساحات آمنة للاستكشاف", tip2: "الاحتفاء بالإنجازات الحركية",
+                disclaimerTitle: "⚠️ إخلاء مسؤولية:", disclaimerText: "هذا التقييم هو أداة تعليمية فقط وليس تشخيصاً طبياً.",
+                tryHeader: "جرب الآن - حمل فيديو", lblChild: "اسم الطفل", childNameVal: "نور", lblAge: "العمر", 
+                ageOpt1: "3-5 سنوات", ageOpt2: "6-8 سنوات", ageOpt3: "9-12 سنة",
+                lblVideo: "الفيديو", uploadText: "اضغط لاختيار فيديو أو اسحبه هنا", uploadSub: "حد أقصى: 2 دقيقة",
+                analyzeBtn: "تحليل الآن", footerNote: "* هذا تجريبي. في النسخة الحقيقية سيتم تحليل الفيديو بواسطة AI",
+                featTitle: "الميزات", feat1: "تحميل فيديو قصير للطفل", feat2: "تحليل ذكي بواسطة AI", feat3: "تقرير مفصل وقابل للمشاركة", feat4: "توصيات شخصية للتطور",
+                aboutTitle: "ما هي Early Spark؟", aboutDesc1: "منصة ذكية تساعد الآباء والأمهات على اكتشاف مواهب أطفالهم الحقيقية بما يتجاوز الدرجات الدراسية التقليدية.", aboutDesc2: "نستخدم نظرية هوارد جاردنر للذكاءات المتعددة لفهم نقاط قوة طفلك بشكل شامل.",
+                startTitle: "ابدأ الآن", startSub: "اختر من الخيارات أعلاه:", start1: "عرض توضيحي: شف كيف يعمل النظام", start2: "جرب الآن: حمل فيديو وحلل", start3: "النسخة الكاملة: على Azure Cloud",
+                intelListTitle: "أنواع الذكاء الثمانية",
+                l1: "الحركي", d1: "💪 التنسيق", l2: "المكاني", d2: "🎨 الأشكال", l3: "المنطقي", d3: "🔢 المشاكل",
+                l4: "الموسيقي", d4: "🎵 الإيقاع", l5: "اللغوي", d5: "📝 الكلام", l6: "الاجتماعي", d6: "👥 التفاعل", l7: "الشخصي", d7: "🌟 الوعي", l8: "الطبيعي", d8: "🌿 الطبيعة",
+                resSuccess: "تم التحليل بنجاح ✅", reload: "تجربة أخرى 🔄",
+                footer1: "نسخة تجريبية مباشرة على الويب | بدون تثبيت | بدون تسجيل",
+                waitMsg: "جاري التحليل بواسطة OpenAI...", resTitle: "النتيجة:"
+            },
+            en: {
+                headerSub: "Discover your child's true talents beyond grades",
+                navDemo: "Live Demo", navTry: "Try Now", navInfo: "Information",
+                statsTitle: "Statistics", intelFound: "Intelligences Found", confLevel: "Confidence Level",
+                overallTitle: "Overall Score", compareText: "Compared to children of the same age",
+                demoName: "Emma", demoAge: "3-5 Years", demoStatus: "💪 Strong",
+                intelTitle: "Detected Intelligences",
+                bodilyTitle: "Bodily-Kinesthetic", bodilyDesc: "Strong physical control and coordination", aboveAvg: "Above Average",
+                spatialTitle: "Spatial Intelligence", spatialDesc: "Advanced spatial thinking and shapes", avg: "Average",
+                logicalTitle: "Logical-Mathematical", logicalDesc: "Advanced logical thinking and problem solving", needsDev: "Needs Development",
+                recTitle: "Recommended Activities", rec1: "Obstacle courses & sports", rec2: "Dance & movement classes", rec3: "Gymnastics programs", rec4: "Team sports games",
+                gamesTitle: "Games & Exercises", game1: "Building blocks (LEGO)", game2: "3D Puzzles", game3: "Balance games & Yoga",
+                tipsTitle: "Parenting Tips", tip1: "Provide safe spaces for exploration", tip2: "Celebrate physical achievements",
+                disclaimerTitle: "⚠️ Disclaimer:", disclaimerText: "This assessment is educational only, not a medical diagnosis.",
+                tryHeader: "Try Now - Upload Video", lblChild: "Child Name", childNameVal: "Nour", lblAge: "Age", 
+                ageOpt1: "3-5 Years", ageOpt2: "6-8 Years", ageOpt3: "9-12 Years",
+                lblVideo: "Video", uploadText: "Click to choose video or drag here", uploadSub: "Max: 2 minutes",
+                analyzeBtn: "Analyze Now", footerNote: "* Experimental. In real version, video is analyzed by AI",
+                featTitle: "Features", feat1: "Upload short child video", feat2: "Smart AI Analysis", feat3: "Detailed report", feat4: "Personalized recommendations",
+                aboutTitle: "What is Early Spark?", aboutDesc1: "A smart platform helping parents discover their children's true talents beyond traditional grades.", aboutDesc2: "We use Howard Gardner's Multiple Intelligences theory to understand your child's strengths comprehensively.",
+                startTitle: "Start Now", startSub: "Choose from options above:", start1: "Live Demo: See how it works", start2: "Try Now: Upload & Analyze", start3: "Full Version: On Azure Cloud",
+                intelListTitle: "The 8 Intelligences",
+                l1: "Kinesthetic", d1: "💪 Coordination", l2: "Spatial", d2: "🎨 Shapes", l3: "Logical", d3: "🔢 Problem Solving",
+                l4: "Musical", d4: "🎵 Rhythm", l5: "Linguistic", d5: "📝 Speech", l6: "Interpersonal", d6: "👥 Social Skills", l7: "Intrapersonal", d7: "🌟 Self-Awareness", l8: "Naturalistic", d8: "🌿 Nature",
+                resSuccess: "Analysis Complete ✅", reload: "Try Again 🔄",
+                footer1: "Web Demo Version | No Install | No Registration",
+                waitMsg: "Analyzing with OpenAI...", resTitle: "Result:"
+            }
+        };
+
+        function toggleLang() {
+            lang = (lang === 'ar') ? 'en' : 'ar';
+            document.dir = (lang === 'ar') ? 'rtl' : 'ltr';
+            document.querySelectorAll('.trans-text').forEach(el => {
+                const key = el.getAttribute('data-key');
+                if (trans[lang][key]) {
+                    if (el.tagName === 'INPUT') {
+                        el.value = trans[lang][key];
+                    } else {
+                        el.innerText = trans[lang][key];
+                    }
+                }
+            });
+            if (currentReportData) fillReport(currentReportData);
+        }
+
+        function showTab(id) {
+            document.querySelectorAll('.tab-panel').forEach(s => s.classList.add('hidden'));
+            document.getElementById('tab-' + id).classList.remove('hidden');
+            document.querySelectorAll('nav button').forEach(b => {
+                b.classList.remove('tab-active');
+            });
+            document.getElementById('btn-tab-' + id).classList.add('tab-active');
+        }
+
+        function showFileName() {
+            const f = document.getElementById('videoFile').files[0];
+            document.getElementById('fileNameDisplay').innerText = f ? "📄 " + f.name : "";
+        }
+
+        function fillReport(data) {
+            const textData = data.content[lang];
+
+            document.getElementById('res-name').innerText = document.getElementById('childName').value;
+            document.getElementById('res-found').innerText = data.stats.found;
+            document.getElementById('res-conf').innerText = data.stats.conf + '%';
+            
+            document.getElementById('res-overall-txt').innerText = data.overall + '%';
+            document.getElementById('res-overall-bar').style.width = data.overall + '%';
+
+            document.getElementById('res-bodily-score').innerText = data.scores.bodily + '%';
+            document.getElementById('res-bodily-bar').style.width = data.scores.bodily + '%';
+            document.getElementById('res-bodily-desc').innerText = textData.desc_bodily;
+
+            document.getElementById('res-spatial-score').innerText = data.scores.spatial + '%';
+            document.getElementById('res-spatial-bar').style.width = data.scores.spatial + '%';
+            document.getElementById('res-spatial-desc').innerText = textData.desc_spatial;
+
+            document.getElementById('res-logical-score').innerText = data.scores.logical + '%';
+            document.getElementById('res-logical-bar').style.width = data.scores.logical + '%';
+            document.getElementById('res-logical-desc').innerText = textData.desc_logical;
+
+            const fillList = (id, items) => {
+                const list = document.getElementById(id);
+                list.innerHTML = '';
+                items.forEach(item => {
+                    list.innerHTML += `<li class="flex items-center gap-2"><i class="fas fa-check text-green-500 text-xs"></i> ${item}</li>`;
+                });
+            };
+
+            fillList('res-recs-list', textData.recs);
+            fillList('res-games-list', textData.games);
+            fillList('res-tips-list', textData.tips);
+        }
+
+        async function startProcessing() {
+            if (!document.getElementById('videoFile').files[0]) return alert("Please select a video file / برجاء اختيار فيديو");
+            
+            document.getElementById('step-input').classList.add('hidden');
+            document.getElementById('loading').classList.remove('hidden');
+
+            const formData = new FormData();
+            formData.append('video', document.getElementById('videoFile').files[0]);
+            formData.append('childName', document.getElementById('childName').value);
+            formData.append('childAge', document.getElementById('childAge').value);
+            
+            try {
+                const res = await axios.post('http://localhost:5000/api/analyze', formData);
+                
+                // التأكد من نجاح العملية من الباك إند
+                if (!res.data.success) {
+                    throw new Error(res.data.error || "Unknown Error");
+                }
+
+                currentReportData = res.data.data;
+
+                document.getElementById('loading').classList.add('hidden');
+                document.getElementById('result-dashboard').classList.remove('hidden');
+
+                fillReport(currentReportData);
+
+            } catch (e) {
+                console.error(e);
+                // إظهار رسالة الخطأ القادمة من السيرفر
+                const errorMsg = e.response && e.response.data && e.response.data.error 
+                                ? e.response.data.error 
+                                : "حدث خطأ في الاتصال بالسيرفر أو مفتاح AI غير صالح.";
+                
+                alert("❌ خطأ:\n" + errorMsg);
+                location.reload();
+            }
+        }
+    </script>
+</body>
+</html>

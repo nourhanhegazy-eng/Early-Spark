@@ -1,0 +1,32 @@
+{
+  "name": "early-spark-imagine-cup-2026",
+  "version": "1.0.0",
+  "description": "AI Child Intelligence Assessment | Imagine Cup 2026 Winner",
+  "main": "index.html",
+  "scripts": {
+    "start": "live-server --port=3000 --host=localhost --open=false",
+    "deploy": "gh-pages -d .",
+    "preview": "live-server --port=3000"
+  },
+  "keywords": [
+    "imagine-cup",
+    "azure-ai",
+    "child-development",
+    "education"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "devDependencies": {
+    "gh-pages": "^6.1.1",
+    "live-server": "^1.2.2"
+  },
+  "dependencies": {
+    "@azure/cognitiveservices-computervision": "^8.2.0",
+    "@azure/ms-rest-js": "^2.7.0",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1",
+    "multer": "^2.0.2",
+    "openai": "^6.15.0"
+  }
+}
