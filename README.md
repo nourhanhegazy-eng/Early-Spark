@@ -57,8 +57,8 @@ PORT=5000
 # Add your key here to enable AI features
 AZURE_OPENAI_KEY=...
 AZURE_OPENAI_ENDPOINT=...
-AZURE_VISIONAI_KEY=...
-AZURE_VISIONAI_ENDPOINT=...
+AZURE_VISION_KEY=...
+AZURE_VISION_ENDPOINT=...
 ```
 ---
 
@@ -71,24 +71,24 @@ node server.js
 ---
 
 ### Step 5: Launch the Frontend
-Go to the frontend folder.
-Open index.html in your browser (Double click to open).
-Go to the "Try Now" tab, enter a child's name, upload a video, and click Analyze.
+* Go to the frontend folder.
+* Open index.html in your browser (Double click to open).
+* Go to the "Try Now" tab, enter a child's name, upload a video, and click Analyze.
 
 ---
 
 ## Future Roadmap
-Phase 1: MVP with Video Analysis & textual reports (Completed).
-Phase 2: Specialized AI Agent for parenting Q&A.
-Phase 3: Full Integration with Azure Video Indexer for real-time frame analysis.
-Phase 4: Mobile Application for wider accessibility.
+* **Phase 1:** MVP with Video Analysis & textual reports (Completed).
+* **Phase 2:** Specialized AI Agent for parenting Q&A.
+* **Phase 3:** Full Integration with Azure Video Indexer for real-time frame analysis **and** Mobile Application for wider accessibility.
+* **Phase 4:** collaboration with edicothnal organization: partnering with schools and kindergartens to integrate Early Spark into their assessment curriculum **and** Building a community hub for patents and teachers to share inisights and feedback.
 
 ---
 
 ## The Team
-Nourhan Hegazy - Solo Founder
-Senior Engineering Student & Mother.
-Combining technical expertise in Cloud/AI with maternal insights to solve real-world parenting challenges.
+**Nourhan Hegazy - Solo Founder**
+* Senior Engineering Student & Mother.
+* Combining technical expertise in Cloud/AI with maternal insights to solve real-world parenting challenges.
 
 ## Built with love for the Microsoft Imagine Cup 2026.
 
