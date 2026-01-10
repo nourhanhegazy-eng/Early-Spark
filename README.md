@@ -71,9 +71,9 @@ node server.js
 ---
 
 ### Step 5: Launch the Frontend
-* Go to the frontend folder.
-* Open index.html in your browser (Double click to open).
-* Go to the "Try Now" tab, enter a child's name, upload a video, and click Analyze.
+1. Go to the frontend folder.
+2. Open index.html in your browser (Double click to open).
+3. Go to the "Try Now" tab, enter a child's name, upload a video, and click Analyze.
 
 ---
 
