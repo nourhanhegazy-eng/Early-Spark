@@ -39,13 +39,17 @@ An accessible web platform where parents can:
 git clone [https://github.com/nourhanhegazy-eng/Early-Spark.git](https://github.com/nourhanhegazy-eng/Early-Spark.git)
 cd Early-Spark
 
+---
+
 ### Step 2: Setup the Backend
-Navigate to the backend folder and install dependencies:
+**Navigate to the backend folder and install dependencies:**
 cd backend
 npm install
 
+---
+
 ### Step 3: Configure Environment Variables
-Create a .env file in the backend folder and add your API keys:
+**Create a .env file in the backend folder and add your API keys:**
 PORT=5000
 # Add your key here to enable AI features
 AZURE_OPENAI_KEY=...
@@ -53,21 +57,29 @@ AZURE_OPENAI_ENDPOINT=...
 AZURE_VISIONAI_KEY=...
 AZURE_VISIONAI_ENDPOINT=...
 
+---
+
 ### Step 4: Run the Server
-Start the backend server:
+**Start the backend server:**
 node server.js
-You should see: 🚀 Server running on http://localhost:5000
+**You should see: 🚀 Server running on http://localhost:5000**
+
+---
 
 ### Step 5: Launch the Frontend
 Go to the frontend folder.
 Open index.html in your browser (Double click to open).
 Go to the "Try Now" tab, enter a child's name, upload a video, and click Analyze.
 
+---
+
 ## Future Roadmap
 Phase 1: MVP with Video Analysis & textual reports (Completed).
 Phase 2: Specialized AI Agent for parenting Q&A.
 Phase 3: Full Integration with Azure Video Indexer for real-time frame analysis.
 Phase 4: Mobile Application for wider accessibility.
+
+---
 
 ## The Team
 Nourhan Hegazy - Solo Founder
