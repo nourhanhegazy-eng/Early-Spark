@@ -2,7 +2,7 @@
 An AI-powered platform leveraging Azure Vision &amp; azure OpenAI to identify children's hidden talents based on the Theory of Multiple Intelligences.
 # Early Spark 💡 | Microsoft Imagine Cup 2026
 
-**Empowering parents to discover their child's hidden talents using AI.**
+**Empowering parents to discover their child's hidden talents byond grades.**
 
 ## 📖 Overview
 **Early Spark** is an AI-powered platform designed to identify children's unique strengths beyond traditional academic grades. Leveraging **Howard Gardner's Theory of Multiple Intelligences**, the system analyzes behavioral video inputs to provide parents with a comprehensive dashboard, highlighting whether their child is Kinesthetic, Spatial, Logical, etc., along with personalized activity recommendations.
@@ -34,7 +34,7 @@ An accessible web platform where parents can:
 
 ### Prerequisites
 * [Node.js](https://nodejs.org/) installed on your machine.
-* An API Key for OpenAI (or Azure OpenAI).
+* An API Key for azure OpenAI.
 
 ### Step 1: Clone the Repository
 ```bash
