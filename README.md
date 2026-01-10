@@ -38,32 +38,36 @@ An accessible web platform where parents can:
 ```bash
 git clone [https://github.com/nourhanhegazy-eng/Early-Spark.git](https://github.com/nourhanhegazy-eng/Early-Spark.git)
 cd Early-Spark
+```
 
 ---
 
 ### Step 2: Setup the Backend
 **Navigate to the backend folder and install dependencies:**
+```bash
 cd backend
 npm install
-
+```
 ---
 
 ### Step 3: Configure Environment Variables
 **Create a .env file in the backend folder and add your API keys:**
+```bash
 PORT=5000
 # Add your key here to enable AI features
 AZURE_OPENAI_KEY=...
 AZURE_OPENAI_ENDPOINT=...
 AZURE_VISIONAI_KEY=...
 AZURE_VISIONAI_ENDPOINT=...
-
+```
 ---
 
 ### Step 4: Run the Server
 **Start the backend server:**
+```bash
 node server.js
 **You should see: 🚀 Server running on http://localhost:5000**
-
+```
 ---
 
 ### Step 5: Launch the Frontend
